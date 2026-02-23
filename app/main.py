@@ -47,7 +47,26 @@ def create_streamlit_app(llm, project, clean_text):
                     email = llm.write_mail(job, links)
 
                     st.subheader("📩 Generated Email")
-                    st.code(email, language="markdown")
+                    st.markdown(
+                        f"""
+                        <div style="
+                            padding: 15px;
+                            border-radius: 10px;
+                            white-space: pre-wrap;
+                            font-family: sans-serif;
+                            line-height: 1.6;
+                        ">
+                        {email}
+                        </div>
+                        """,
+                        unsafe_allow_html=True
+                    )
+                    st.download_button(
+                        label="Download Email 📄",
+                        data=email,
+                        file_name="cold_email.txt",
+                        mime="text/plain"
+                    )
 
             except Exception as e:
                 st.error(f"Error: {e}")
@@ -55,5 +74,4 @@ def create_streamlit_app(llm, project, clean_text):
 if __name__ == "__main__":
     chain = Chain()
     project = Project()
-    st.set_page_config(layout= "wide", page_title = "Cold Email Generator")
     create_streamlit_app(chain, project, clean_text)
