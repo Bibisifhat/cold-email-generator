@@ -4,10 +4,14 @@ from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import JsonOutputParser
 from langchain_core.exceptions import OutputParserException
 from dotenv import load_dotenv
+import streamlit as st
 
 
-load_dotenv()
-var=os.getenv("GROQ_API_KEY")
+try:
+    var = st.secrets["GROQ_API_KEY"]
+except:
+    load_dotenv()
+    var = os.getenv("GROQ_API_KEY")
 
 class Chain: 
     def __init__(self):
@@ -68,6 +72,9 @@ class Chain:
             """
             ### JOB DESCRIPTION:
             {job_description}
+
+            ### RELEVANT PROJECT LINKS
+            {link_list}
 
             ### INSTRUCTION:
 
